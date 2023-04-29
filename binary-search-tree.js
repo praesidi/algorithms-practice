@@ -43,8 +43,24 @@ class Tree {
   // accepts a value to insert.
 
   insert(value, root = this.root) {
-    if (value < root) {
+    if (root === null) {
+      root = new Node(value);
+      return root;
     }
+
+    if (value === root.data) {
+      console.log("Duplicates are now allowed");
+      return;
+    }
+
+    if (value < root.data) {
+      root.left = this.insert(value, root.left);
+    }
+
+    if (value > root.data) {
+      root.right = this.insert(value, root.right);
+    }
+    return root;
   }
 
   // accepts a value to delete.
@@ -97,6 +113,8 @@ function prettyPrint(node, prefix = "", isLeft = true) {
   }
 }
 
-const arr = [1, 2, 3, 4, 5, 6, 7, 8];
+const arr = [1, 2, 3, 4, 6, 7, 8];
 const treeC = new Tree(arr);
+// prettyPrint(treeC.root);
+treeC.insert(5);
 prettyPrint(treeC.root);
