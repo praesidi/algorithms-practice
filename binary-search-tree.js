@@ -24,24 +24,7 @@ class Tree {
     return node;
   }
 
-  // prettyPrint(node, prefix = "", isLeft = true) {
-  //   if (node === null) {
-  //     return;
-  //   }
-
-  //   if (node.right !== null) {
-  //     prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  //   }
-
-  //   console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-
-  //   if (node.left !== null) {
-  //     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  //   }
-  // }
-
   // accepts a value to insert.
-
   insert(value, root = this.root) {
     if (root === null) {
       root = new Node(value);
@@ -64,7 +47,41 @@ class Tree {
   }
 
   // accepts a value to delete.
-  delete(value, root = this.root) {}
+  delete(value, root = this.root) {
+    if (root === null) return root;
+
+    if (value < root.data) {
+      root.left = this.delete(value, root.left);
+    } else if (value > root.data) {
+      root.right = this.delete(value, root.right);
+    } else {
+      // Case 1: No Children
+      if (root.left === null && root.right === null) {
+        return null;
+      }
+
+      // Case 2: One Child
+      if (root.right === null) {
+        return root.left;
+      } else if (root.left === null) {
+        return root.right;
+      }
+
+      // Case 3: Two Children
+      let temp = this.minValue(root.right);
+      root.data = temp.data;
+      root.right = this.delete(temp.data, root.right);
+    }
+    return root;
+  }
+
+  minValue(root = this.root) {
+    if (root.left === null) {
+      return root;
+    } else {
+      return this.minValue(root.left);
+    }
+  }
 
   // accepts a value and returns the node with the given value.
   find(value, root = this.root) {
@@ -116,5 +133,7 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 const arr = [1, 2, 3, 4, 6, 7, 8];
 const treeC = new Tree(arr);
 // prettyPrint(treeC.root);
-treeC.insert(5);
+// prettyPrint(treeC.root);
+// treeC.delete(7);
 prettyPrint(treeC.root);
+// console.log(treeC);
