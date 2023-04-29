@@ -41,13 +41,23 @@ class Tree {
   // }
 
   // accepts a value to insert.
-  insert() {}
+
+  insert(value, root = this.root) {
+    if (value < root) {
+    }
+  }
 
   // accepts a value to delete.
-  delete() {}
+  delete(value, root = this.root) {}
 
   // accepts a value and returns the node with the given value.
-  find() {}
+  find(value, root = this.root) {
+    if (root === null || root.data === value) return root;
+
+    if (root.data < value) return this.find(value, root.right);
+
+    return this.find(value, root.left);
+  }
 
   // accepts another function as a parameter.
   levelOrder() {}
@@ -89,5 +99,4 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 
 const arr = [1, 2, 3, 4, 5, 6, 7, 8];
 const treeC = new Tree(arr);
-console.log(treeC.root);
 prettyPrint(treeC.root);
